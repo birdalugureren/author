@@ -7,8 +7,8 @@ class ScrapingPipeline(object):
 
     def __init__(self):
         self.setupDBCon()
-        self.dropTable()
-        self.createTable()
+    #    self.dropTable()
+    #    self.createTable()
 
     def process_item(self, item, spider):
         self.storeInDb(item)
@@ -19,7 +19,7 @@ class ScrapingPipeline(object):
         self.cur = self.con.cursor()
 
     def storeInDb(self, item):
-        self.cur.execute("INSERT INTO myQuotes_author(author, text, tags) VALUES (?, ?, ?)",
+        self.cur.execute("INSERT INTO myQuotes_author(author, text, tags, owner_id) VALUES (?, ?, ?, 0)",
                          (
                              item['author'],
                              item['text'],
@@ -37,8 +37,11 @@ class ScrapingPipeline(object):
         self.cur.execute("CREATE TABLE IF NOT EXISTS myQuotes_author(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, \
     		author TEXT, \
     		text TEXT, \
-            tags TEXT \
+            tags TEXT, \
+            owner_id INTEGER AUTOINCREMENT \
     		)")
 
     def dropTable(self):
         self.cur.execute("DROP TABLE IF EXISTS myQuotes_author")
+
+
