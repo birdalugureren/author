@@ -95,7 +95,7 @@ class GCAuthotList(generics.ListCreateAPIView):
 
 
 class GCAuthorDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Author
+    queryset = Author.objects.all()
     serializer_class = AuthorSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
